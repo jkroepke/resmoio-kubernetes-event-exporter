@@ -4,6 +4,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: {{ .Values.rbac.namespaced | ternary "RoleBinding" "ClusterRoleBinding" }}
 metadata:
   name: {{ include "kubernetes-event-exporter.fullname" . }}
+  namespace: {{ include "kubernetes-event-exporter.namespace" . }}
   labels:
     {{- include "kubernetes-event-exporter.labels" . | nindent 4 }}
 roleRef:
