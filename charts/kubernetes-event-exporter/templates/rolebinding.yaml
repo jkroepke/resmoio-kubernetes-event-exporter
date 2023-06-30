@@ -15,8 +15,8 @@ roleRef:
   name: {{ include "kubernetes-event-exporter.fullname" . }}
 subjects:
   - kind: ServiceAccount
+    name: {{ include "kubernetes-event-exporter.fullname" . }}
     {{- if .Values.rbac.namespaced }}
     namespace: {{ include "kubernetes-event-exporter.namespace" . }}
     {{- end }}
-    name: {{ include "kubernetes-event-exporter.fullname" . }}
 {{- end }}
