@@ -6,6 +6,9 @@ metadata:
   name: {{ include "kubernetes-event-exporter.fullname" . }}
   labels:
     {{- include "kubernetes-event-exporter.labels" . | nindent 4 }}
+  {{- if .Values.rbac.namespaced }}
+  namespace: {{ include "kubernetes-event-exporter.namespace" . }}
+  {{- end }}
 rules:
 {{ toYaml .Values.rbac.rules }}
 {{- end -}}

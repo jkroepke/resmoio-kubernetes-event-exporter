@@ -5,13 +5,18 @@ kind: {{ .Values.rbac.namespaced | ternary "RoleBinding" "ClusterRoleBinding" }}
 metadata:
   name: {{ include "kubernetes-event-exporter.fullname" . }}
   labels:
-    {{- include "kubernetes-event-exporter.labels" . | nindent 4 }}
+    {{- include "kubernetes-event-exporter.labels" . | nindent 4 }} 
+  {{- if .Values.rbac.namespaced }}
+  namespace: {{ include "kubernetes-event-exporter.namespace" . }}
+  {{- end }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: {{ .Values.rbac.namespaced | ternary "Role" "ClusterRole" }}
   name: {{ include "kubernetes-event-exporter.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    namespace: {{ include "kubernetes-event-exporter.namespace" . }}
     name: {{ include "kubernetes-event-exporter.fullname" . }}
+    {{- if .Values.rbac.namespaced }}
+    namespace: {{ include "kubernetes-event-exporter.namespace" . }}
+    {{- end }}
 {{- end }}
