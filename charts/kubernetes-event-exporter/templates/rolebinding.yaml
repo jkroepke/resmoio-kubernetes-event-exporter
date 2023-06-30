@@ -9,7 +9,7 @@ metadata:
     {{- include "kubernetes-event-exporter.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: {{ .Values.rbac.namespaced | ternary "Role" "ClusterRole" }}
   name: {{ include "kubernetes-event-exporter.fullname" . }}
 subjects:
   - kind: ServiceAccount
